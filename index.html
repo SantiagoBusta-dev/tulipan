@@ -32,6 +32,7 @@
     font-family:'Work Sans', sans-serif;
     color: var(--cream);
     overflow-x:hidden;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .stage{
@@ -91,9 +92,9 @@
     color: rgba(243,233,221,.6);
   }
 
-  /* ---- FLOR DE TULIPÁN AMPLIADA PARA MÓVIL ---- */
+  /* ---- FLOR DE TULIPÁN AMPLIADA Y OPTIMIZADA PARA TÁCTIL ---- */
   .flower-wrap{
-    width: min(92vw, 480px); /* Aumentado de tamaño para móviles */
+    width: min(94vw, 500px);
     position:relative;
     z-index:2;
     filter: drop-shadow(0 10px 25px rgba(0,0,0,0.5));
@@ -103,11 +104,11 @@
   .petal-fall{
     cursor:pointer;
     transform-box: fill-box;
-    transform-origin: 50% 100%; /* Punto de pivote ajustado en la base inferior del pétalo para mayor precisión táctil */
+    transform-origin: 50% 100%;
     transition: transform .75s cubic-bezier(.34,.62,.35,1), opacity .6s ease .05s;
   }
   .petal-fall path{ transition: filter .15s ease; }
-  .petal-fall:hover path, .petal-fall:active path{ filter: brightness(1.25) drop-shadow(0 0 14px rgba(255,195,61,0.9)); }
+  .petal-fall:hover path, .petal-fall:active path{ filter: brightness(1.25) drop-shadow(0 0 16px rgba(255,195,61,0.95)); }
   
   .petal-fall.done{
     opacity: .25;
@@ -455,7 +456,6 @@
   </header>
 
   <div class="flower-wrap">
-    <!-- ViewBox ampliado para dar mayor área de separación entre pétalos -->
     <svg viewBox="-30 0 560 690" xmlns="http://www.w3.org/2000/svg">
       <!-- Tallo -->
       <path d="M250 440 L250 660" stroke="var(--stem)" stroke-width="12" fill="none" stroke-linecap="round"/>
@@ -689,6 +689,11 @@ function petalsAnim(container){
 }
 
 function openPetal(key){
+  // Efecto de vibración háptica suave si el teléfono lo soporta
+  if (navigator.vibrate) {
+    navigator.vibrate(40);
+  }
+
   const c = content[key];
   
   card.style.setProperty('--card-glow', c.rawColor + '88');
