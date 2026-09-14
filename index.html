@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Siete pétalos</title>
+<title>Feliz 1 año y 4 meses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -44,16 +44,31 @@
     padding: 40px 20px 60px;
   }
 
-  .stars{
-    position:fixed; inset:0; pointer-events:none; z-index:0;
+  /* ---- FONDO ANIMADO GENERAL ---- */
+  .bg-ambient{
+    position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
   }
-  .star{
-    position:absolute; width:2px; height:2px; background:var(--gold-soft);
-    border-radius:50%; opacity:.5; animation: twinkle 3.5s ease-in-out infinite;
+  .bg-item{
+    position:absolute;
+    bottom:-30px;
+    opacity:0;
+    animation: floatAmbient linear infinite;
   }
-  @keyframes twinkle{
-    0%,100%{opacity:.15;}
-    50%{opacity:.8;}
+  @keyframes floatAmbient{
+    0%{
+      transform: translateY(0) rotate(0deg) scale(0.6);
+      opacity: 0;
+    }
+    15%{
+      opacity: var(--max-opacity, 0.45);
+    }
+    85%{
+      opacity: var(--max-opacity, 0.45);
+    }
+    100%{
+      transform: translateY(-110vh) rotate(360deg) scale(1.1);
+      opacity: 0;
+    }
   }
 
   header{
@@ -65,7 +80,7 @@
     font-family:'Fraunces', serif;
     font-weight:500;
     font-style:italic;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-size: clamp(1.5rem, 3.8vw, 2.2rem);
     color: var(--cream);
     letter-spacing:.3px;
   }
@@ -92,7 +107,7 @@
     transition: transform .75s cubic-bezier(.34,.62,.35,1), opacity .6s ease .05s;
   }
   .petal-fall path{ transition: filter .15s ease; }
-  .petal-fall:hover path{ filter: brightness(1.15) drop-shadow(0 0 8px rgba(230,196,138,0.5)); }
+  .petal-fall:hover path{ filter: brightness(1.2) drop-shadow(0 0 12px rgba(255,195,61,0.8)); }
   
   .petal-fall.done{
     opacity: .25;
@@ -108,67 +123,104 @@
     z-index:2;
   }
 
-  /* ---- OVERLAY MODAL ---- */
+  /* ---- OVERLAY MODAL CON BRILLITOS Y DESTELLOS ROMÁNTICOS ---- */
   .overlay{
     position:fixed; inset:0;
-    background: rgba(15,10,20,.86);
-    backdrop-filter: blur(6px);
+    background: rgba(15,10,20,.85);
+    backdrop-filter: blur(10px);
     display:flex; align-items:center; justify-content:center;
     opacity:0; pointer-events:none;
     transition: opacity .35s ease;
     z-index:10;
     padding: 24px;
+    overflow: hidden;
   }
   .overlay.open{ opacity:1; pointer-events:auto; }
+
+  /* Partículas de brillitos flotantes dentro de la tarjeta */
+  .card-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 26px;
+    z-index: 1;
+  }
+  .sparkle-dot {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: sparkleAnim linear infinite;
+    box-shadow: 0 0 8px var(--card-glow, #ff3b6e), 0 0 12px #fff;
+  }
+  @keyframes sparkleAnim {
+    0% { transform: translateY(20px) scale(0.2); opacity: 0; }
+    30% { opacity: 0.9; }
+    70% { opacity: 0.6; }
+    100% { transform: translateY(-150px) scale(1.3); opacity: 0; }
+  }
 
   .card{
     max-width: 460px;
     width:100%;
-    background: linear-gradient(160deg, #2c2038, #1d1526);
-    border: 1px solid rgba(211,161,92,.25);
-    border-radius: 22px;
-    padding: 38px 32px 32px;
+    /* Fondo sumamente vivo, con iluminación central del color del pétalo, destellos y toques dorados */
+    background: 
+      radial-gradient(circle at 50% 15%, var(--card-glow, rgba(255, 59, 110, 0.6)) 0%, transparent 75%),
+      radial-gradient(circle at 85% 85%, rgba(211, 161, 92, 0.25) 0%, transparent 50%),
+      linear-gradient(150deg, rgba(46, 22, 56, 0.95), rgba(20, 10, 28, 0.98));
+    border: 2px solid var(--card-border, rgba(255, 59, 110, 0.75));
+    border-radius: 26px;
+    padding: 40px 32px 34px;
     text-align:center;
     position:relative;
-    transform: translateY(14px) scale(.97);
+    z-index: 2;
+    transform: translateY(16px) scale(.95);
     transition: transform .4s cubic-bezier(.2,.8,.2,1);
     max-height: 82vh;
     overflow-y:auto;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 45px var(--card-glow-shadow, rgba(255, 59, 110, 0.4)), inset 0 1px 0 rgba(255,255,255,0.3);
   }
   .overlay.open .card{ transform: translateY(0) scale(1); }
 
   .card .tag{
-    font-size:.72rem;
-    letter-spacing:1.5px;
+    font-size:.75rem;
+    letter-spacing:1.8px;
     color: var(--gold-soft);
-    font-weight:500;
+    font-weight:600;
     margin-bottom: 14px;
     text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
   }
   .card h2{
     font-family:'Fraunces', serif;
     font-weight:600;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 16px;
     color: var(--cream);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
   }
   .card p{
     font-weight:300;
-    line-height:1.65;
-    color: rgba(243,233,221,.85);
-    font-size:.98rem;
+    line-height:1.7;
+    color: #fff;
+    font-size:1.02rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
   .close-btn{
     position:absolute; top:16px; right:18px;
-    background:none; border:none; color: rgba(243,233,221,.5);
-    font-size:1.3rem; cursor:pointer; line-height:1;
+    background: rgba(255,255,255,0.15); border:none; width: 32px; height: 32px; border-radius: 50%;
+    color: var(--cream);
+    font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    z-index: 3;
+    transition: background .2s ease;
   }
-  .close-btn:hover{ color: var(--cream); }
+  .close-btn:hover{ background: rgba(255,255,255,0.3); }
 
   /* --- CONTENIDOS ESPECIALES --- */
   .memory-scene{
-    display:flex; justify-content:center; gap:10px; margin:10px 0 6px;
-    font-size:1.6rem;
+    display:flex; justify-content:center; gap:12px; margin:12px 0 8px;
+    font-size:1.8rem;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
   }
   .memory-scene span{ animation: floaty 2.6s ease-in-out infinite; }
   .memory-scene span:nth-child(2){ animation-delay:.3s; }
@@ -178,35 +230,37 @@
     50%{ transform: translateY(-6px); }
   }
 
-  .hearts-field{ position:relative; height:70px; margin-bottom:6px; }
+  .hearts-field{ position:relative; height:75px; margin-bottom:6px; }
   .heart-float{
-    position:absolute; bottom:0; font-size:1.1rem; opacity:0;
+    position:absolute; bottom:0; font-size:1.2rem; opacity:0;
     animation: riseHeart 3.2s ease-in infinite;
+    filter: drop-shadow(0 0 6px rgba(255,100,150,0.8));
   }
   @keyframes riseHeart{
     0%{ transform: translateY(0) scale(.8); opacity:0; }
     15%{ opacity:1; }
-    100%{ transform: translateY(-65px) scale(1.05); opacity:0; }
+    100%{ transform: translateY(-65px) scale(1.1); opacity:0; }
   }
 
   .big-phrase{
     font-family:'Fraunces', serif;
     font-style:italic;
     font-weight:500;
-    font-size: clamp(1.4rem, 5vw, 1.9rem);
+    font-size: clamp(1.5rem, 5vw, 2rem);
     line-height:1.35;
     color: var(--cream);
-    margin: 14px 0 4px;
+    margin: 16px 0 6px;
+    text-shadow: 0 2px 10px rgba(255,255,255,0.3), 0 2px 8px rgba(0,0,0,0.5);
   }
 
   .photo-frame{
     width: 100%;
     max-width: 260px;
     aspect-ratio: 4/5;
-    margin: 6px auto 4px;
+    margin: 8px auto 6px;
     border-radius: 12px;
     border: 6px solid #fdf8ef;
-    box-shadow: 0 10px 26px rgba(0,0,0,.45);
+    box-shadow: 0 10px 26px rgba(0,0,0,.5), 0 0 15px rgba(255,255,255,0.3);
     overflow:hidden;
     position:relative;
     background: linear-gradient(160deg,#3a2c48,#241a30);
@@ -220,28 +274,29 @@
     0%{ opacity:0; filter: blur(6px) brightness(1.6); }
     100%{ opacity:1; filter: blur(0) brightness(1); }
   }
-  .photo-frame .placeholder-icon{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2.2rem; opacity:.35; }
 
   .player{
-    background: rgba(255,255,255,.05);
-    border:1px solid rgba(211,161,92,.2);
+    background: rgba(0,0,0,0.3);
+    border:1px solid rgba(255,255,255,0.25);
     border-radius: 14px;
     padding: 16px 18px;
     display:flex; align-items:center; gap:14px;
-    margin: 10px 0 4px;
+    margin: 12px 0 6px;
     text-align:left;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
   }
   .play-btn{
     width:42px; height:42px; border-radius:50%;
     background: var(--gold);
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0; cursor:pointer; font-size:1rem; color:var(--night-deep);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 10px var(--gold-soft);
     transition: transform .15s ease;
   }
   .play-btn:hover{ transform: scale(1.06); }
   .track-info{ flex:1; }
-  .track-info .name{ font-weight:500; font-size:.92rem; color:var(--cream); }
-  .track-info .film{ font-size:.78rem; color: rgba(243,233,221,.55); margin-top:2px; }
+  .track-info .name{ font-weight:600; font-size:.92rem; color:var(--cream); }
+  .track-info .film{ font-size:.78rem; color: rgba(243,233,221,.75); margin-top:2px; }
   .bars{ display:flex; align-items:flex-end; gap:3px; height:20px; }
   .bars span{
     width:3px; background: var(--gold-soft); border-radius:2px;
@@ -256,10 +311,10 @@
     0%,100%{ transform: scaleY(.4); }
     50%{ transform: scaleY(1); }
   }
-  .player-note{ font-size:.72rem; color:rgba(243,233,221,.4); margin-top:10px; font-weight:300;}
+  .player-note{ font-size:.75rem; color:rgba(243,233,221,.65); margin-top:10px; font-weight:300;}
 
-  .future-field{ position:relative; height:80px; margin-bottom:4px; overflow:hidden; }
-  .mini-petal{
+  .future-field{ position:relative; height:80px; margin-bottom:6px; overflow:hidden; }
+  .mini-petal-box{
     position:absolute; bottom:-10px; width:8px; height:14px;
     border-radius: 8px 2px 8px 2px;
     opacity:0;
@@ -299,6 +354,7 @@
     font-weight:500;
     font-size:.88rem;
     cursor:pointer;
+    box-shadow: 0 0 15px rgba(211,161,92,0.5);
     transition: transform .2s ease, background .2s ease;
   }
   .continue-btn:hover{ background: var(--gold-soft); transform: translateY(-1px); }
@@ -306,11 +362,11 @@
 </head>
 <body>
 
-<div class="stars" id="stars"></div>
+<div class="bg-ambient" id="bgAmbient"></div>
 
 <div class="stage">
   <header>
-    <h1>Siete pétalos</h1>
+    <h1>Feliz 1 año y 4 meses de novios ❤️</h1>
     <p>Tocá cada pétalo. Se va a caer, y su recuerdo va a quedar abierto.</p>
   </header>
 
@@ -335,6 +391,7 @@
 </div>
 
 <div class="overlay" id="overlay">
+  <div class="card-sparkles" id="cardSparkles"></div>
   <div class="card" id="card">
     <button class="close-btn" id="closeBtn">✕</button>
     <div id="cardContent"></div>
@@ -342,8 +399,8 @@
 </div>
 
 <div class="final-screen" id="finalScreen">
-  <h2>Y así, sin pétalos.</h2>
-  <p>Pero nunca sin vos. Cada pétalo era apenas un momento — quedan muchísimos más por abrir, juntos.</p>
+  <h2>Feliz 1 año y 4 meses juntos ❤️</h2>
+  <p>Ya no quedan pétalos en la flor, pero cada uno de ellos fue un pedacito de este tiempo hermoso que llevamos compartiendo. Quiero que lo nuestro sea para siempre, que sigamos sumando años, risas y momentos inolvidables, porque mi lugar favorito en el mundo es con vos.</p>
   <div class="final-hearts" id="finalHearts"></div>
   <button class="continue-btn" id="restartBtn">Volver a la flor</button>
 </div>
@@ -354,25 +411,29 @@ const content = {
     tag: 'PÉTALO 1 · RECUERDO',
     title: 'Nuestras películas',
     body: `¿Sabés qué recuerdo me encanta? Esas noches en las que me quedaba en tu casa viendo películas juntos. Capaz para cualquiera era simplemente ver una película, pero para mí eran momentos simples que se volvían especiales solamente porque estaba con vos. ❤️`,
-    extra: `<div class="memory-scene"><span>🍿</span><span>🕯️</span><span>🎞️</span></div>`
+    extra: `<div class="memory-scene"><span>🍿</span><span>🕯️</span><span>🎞️</span></div>`,
+    rawColor: '#ff6f59'
   },
   ella: {
     tag: 'PÉTALO 2 · ELLA',
     title: 'Tu amor',
-    body: `Hay algo de vos que me encanta muchísimo: la forma en la que me hacés sentir amado. Me encanta cuando te agarra esa locura de amor y empezás a abrazarme, besarme y decirme cuánto me amás. Me encanta verte así y sentir todo ese amor que tenés por mí. 🥰❤️`,
-    extra: `<div class="hearts-field" id="heartsField"></div>`
+    body: `Hay algo de vos que me encanta muchísimo: la forma en la que me hacés sentir amado. Me encanta cuando te agarra esa locura de amor y empezás a abrazarme, besarme y decirme cuánto me amás. Me encanta verte así y sentir todo ese amor que tener por mí. 🥰❤️`,
+    extra: `<div class="hearts-field" id="heartsField"></div>`,
+    rawColor: '#ff3b6e'
   },
   frase: {
     tag: 'PÉTALO 3 · FRASE',
     title: '',
     body: '',
-    extra: `<p class="big-phrase">Sos todo lo que está bien.</p>`
+    extra: `<p class="big-phrase">Sos todo lo que está bien.</p>`,
+    rawColor: '#e8175d'
   },
   foto: {
     tag: 'PÉTALO 4 · FOTO',
     title: 'Ese momento',
     body: `Un lugar favorito con mi persona favorita.`,
-    extra: `<div class="photo-frame"><img src="nuestra-foto.jpg" alt="Nosotros"></div>`
+    extra: `<div class="photo-frame"><img src="nuestra-foto.jpg" alt="Nosotros"></div>`,
+    rawColor: '#c4145a'
   },
   cancion: {
     tag: 'PÉTALO 5 · CANCIÓN',
@@ -387,37 +448,62 @@ const content = {
         <div class="bars" id="eqBars"><span></span><span></span><span></span><span></span></div>
       </div>
       <audio id="bgMusic" src="cancion.mp3" preload="auto"></audio>
-      <div class="player-note">Tocá play para escucharla.</div>`
+      <div class="player-note">Tocá play para escucharla.</div>`,
+    rawColor: '#8e3b9e'
   },
   futuro: {
     tag: 'PÉTALO 6 · FUTURO',
     title: 'Lo que todavía viene',
     body: `Quiero que siempre estemos juntos y que nos amemos tanto o más que ahora. Quiero seguir compartiendo momentos con vos, seguir riéndonos, seguir haciendo recuerdos y seguir viviendo muchas cosas juntos. ❤️`,
-    extra: `<div class="future-field" id="futureField"></div>`
+    extra: `<div class="future-field" id="futureField"></div>`,
+    rawColor: '#3e6ff2'
   },
   final: {
     tag: 'PÉTALO 7 · FINAL',
     title: 'Lo más importante',
     body: `Eres lo más hermoso e importante que me pasó. Sos todo lo que está bien. Cuando todo se me cae y las cosas están mal, estás vos para hacerme levantar. Te amo demasiado. ❤️`,
-    extra: ``
+    extra: ``,
+    rawColor: '#ffc33d'
   }
 };
 
 const colors = ['#ff6f59','#ff3b6e','#e8175d','#c4145a','#8e3b9e','#3e6ff2','#ffc33d'];
 
-const starsWrap = document.getElementById('stars');
-for(let i=0;i<50;i++){
-  const s = document.createElement('div');
-  s.className='star';
-  s.style.left = Math.random()*100+'vw';
-  s.style.top = Math.random()*100+'vh';
-  s.style.animationDelay = (Math.random()*3)+'s';
-  starsWrap.appendChild(s);
+// --- FONDO ANIMADO GENERAL ---
+const bgAmbient = document.getElementById('bgAmbient');
+const ambientTypes = ['star', 'heart', 'petal'];
+
+for(let i = 0; i < 45; i++){
+  const el = document.createElement('div');
+  const type = ambientTypes[Math.floor(Math.random() * ambientTypes.length)];
+  
+  el.className = 'bg-item';
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.animationDuration = (5 + Math.random() * 6) + 's';
+  el.style.animationDelay = (Math.random() * 6) + 's';
+  el.style.setProperty('--max-opacity', 0.25 + Math.random() * 0.4);
+
+  if(type === 'star'){
+    el.style.width = '3px';
+    el.style.height = '3px';
+    el.style.background = 'var(--gold-soft)';
+    el.style.borderRadius = '50%';
+    el.style.boxShadow = '0 0 6px var(--gold-soft)';
+  } else if(type === 'heart'){
+    el.textContent = Math.random() > 0.5 ? '💕' : '✨';
+    el.style.fontSize = (0.7 + Math.random() * 0.6) + 'rem';
+  } else {
+    el.style.width = (6 + Math.random() * 5) + 'px';
+    el.style.height = (10 + Math.random() * 6) + 'px';
+    el.style.borderRadius = '8px 2px 8px 2px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  bgAmbient.appendChild(el);
 }
 
 const BASE_X = 250, BASE_Y = 420;
 
-// Configuración de los 7 pétalos con el primero arriba (0 grados) y simetría armónica
 const petalsConfig = [
   { key:'recuerdo', angle: 0,   color:'var(--p1)', long:true },
   { key:'ella',     angle: -18,  color:'var(--p2)' },
@@ -456,10 +542,33 @@ drawOrder.forEach(p=>{
 });
 
 const overlay = document.getElementById('overlay');
+const card = document.getElementById('card');
+const cardSparkles = document.getElementById('cardSparkles');
 const cardContent = document.getElementById('cardContent');
 const progressEl = document.getElementById('progress');
 const finalScreen = document.getElementById('finalScreen');
 let opened = new Set();
+
+// Generar brillitos flotantes dentro de la tarjeta al abrirla
+function generateSparkles(colorHex) {
+  cardSparkles.innerHTML = '';
+  for (let i = 0; i < 20; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'sparkle-dot';
+    dot.style.left = Math.random() * 100 + '%';
+    dot.style.bottom = (Math.random() * 30) + 'px';
+    
+    // Tamaños variados para los brillitos
+    const size = (3 + Math.random() * 5) + 'px';
+    dot.style.width = size;
+    dot.style.height = size;
+    
+    dot.style.setProperty('--card-glow', colorHex);
+    dot.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+    dot.style.animationDelay = (Math.random() * 2) + 's';
+    cardSparkles.appendChild(dot);
+  }
+}
 
 function heartsAnim(container){
   container.innerHTML='';
@@ -476,7 +585,7 @@ function petalsAnim(container){
   container.innerHTML='';
   for(let i=0;i<10;i++){
     const p = document.createElement('div');
-    p.className='mini-petal';
+    p.className='mini-petal-box';
     p.style.left = (5+Math.random()*90)+'%';
     p.style.background = colors[Math.floor(Math.random()*colors.length)];
     p.style.animationDelay = (Math.random()*3.5)+'s';
@@ -486,6 +595,14 @@ function petalsAnim(container){
 
 function openPetal(key){
   const c = content[key];
+  
+  // Asignar colores vivos e inyectar brillitos personalizados con el color del pétalo
+  card.style.setProperty('--card-glow', c.rawColor + '88');
+  card.style.setProperty('--card-glow-shadow', c.rawColor + '66');
+  card.style.setProperty('--card-border', c.rawColor);
+
+  generateSparkles(c.rawColor);
+
   cardContent.innerHTML = `
     <div class="tag">${c.tag}</div>
     ${c.title ? `<h2>${c.title}</h2>` : ''}
@@ -499,7 +616,7 @@ function openPetal(key){
   const el = document.querySelector(`.petal-fall[data-key="${key}"]`);
   if(el && !opened.has(key)){
     opened.add(key);
-    el.classList.add('falling', 'done');
+    el.classList.add('done');
     progressEl.textContent = `${opened.size} / 7 pétalos abiertos`;
     if(opened.size === 7){
       setTimeout(()=> showFinal(), 800);
@@ -563,7 +680,6 @@ function showFinal(){
 }
 document.getElementById('restartBtn').addEventListener('click', ()=>{
   finalScreen.classList.remove('show');
-  // Opcional: recargar o reiniciar estados si se prefiere
   location.reload();
 });
 </script>
