@@ -41,7 +41,7 @@
     align-items:center;
     justify-content:center;
     position:relative;
-    padding: 40px 20px 60px;
+    padding: 30px 16px 50px;
   }
 
   /* ---- FONDO ANIMADO GENERAL ---- */
@@ -73,27 +73,27 @@
 
   header{
     text-align:center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     position:relative; z-index:2;
   }
   header h1{
     font-family:'Fraunces', serif;
     font-weight:500;
     font-style:italic;
-    font-size: clamp(1.5rem, 3.8vw, 2.2rem);
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
     color: var(--cream);
     letter-spacing:.3px;
   }
   header p{
-    margin-top:8px;
+    margin-top:6px;
     font-weight:300;
-    font-size:.95rem;
+    font-size:.9rem;
     color: rgba(243,233,221,.6);
   }
 
-  /* ---- FLOR DE TULIPÁN ESTILO SVG ---- */
+  /* ---- FLOR DE TULIPÁN AMPLIADA PARA MÓVIL ---- */
   .flower-wrap{
-    width: min(78vw, 420px);
+    width: min(92vw, 480px); /* Aumentado de tamaño para móviles */
     position:relative;
     z-index:2;
     filter: drop-shadow(0 10px 25px rgba(0,0,0,0.5));
@@ -103,11 +103,11 @@
   .petal-fall{
     cursor:pointer;
     transform-box: fill-box;
-    transform-origin: center;
+    transform-origin: 50% 100%; /* Punto de pivote ajustado en la base inferior del pétalo para mayor precisión táctil */
     transition: transform .75s cubic-bezier(.34,.62,.35,1), opacity .6s ease .05s;
   }
   .petal-fall path{ transition: filter .15s ease; }
-  .petal-fall:hover path{ filter: brightness(1.2) drop-shadow(0 0 12px rgba(255,195,61,0.8)); }
+  .petal-fall:hover path, .petal-fall:active path{ filter: brightness(1.25) drop-shadow(0 0 14px rgba(255,195,61,0.9)); }
   
   .petal-fall.done{
     opacity: .25;
@@ -116,8 +116,8 @@
   }
 
   .progress{
-    margin-top: 25px;
-    font-size:.8rem;
+    margin-top: 18px;
+    font-size:.82rem;
     color: rgba(243,233,221,.55);
     letter-spacing:.5px;
     z-index:2;
@@ -158,7 +158,7 @@
     opacity:0; pointer-events:none;
     transition: opacity .35s ease;
     z-index:10;
-    padding: 24px;
+    padding: 20px;
     overflow: hidden;
   }
   .overlay.open{ opacity:1; pointer-events:auto; }
@@ -194,7 +194,7 @@
       linear-gradient(150deg, rgba(46, 22, 56, 0.95), rgba(20, 10, 28, 0.98));
     border: 2px solid var(--card-border, rgba(255, 59, 110, 0.75));
     border-radius: 26px;
-    padding: 40px 32px 34px;
+    padding: 34px 26px 28px;
     text-align:center;
     position:relative;
     z-index: 2;
@@ -211,15 +211,15 @@
     letter-spacing:1.8px;
     color: var(--gold-soft);
     font-weight:600;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     text-transform: uppercase;
     text-shadow: 0 1px 4px rgba(0,0,0,0.5);
   }
   .card h2{
     font-family:'Fraunces', serif;
     font-weight:600;
-    font-size: 1.6rem;
-    margin-bottom: 16px;
+    font-size: 1.5rem;
+    margin-bottom: 14px;
     color: var(--cream);
     text-shadow: 0 2px 6px rgba(0,0,0,0.5);
   }
@@ -227,11 +227,11 @@
     font-weight:300;
     line-height:1.7;
     color: #fff;
-    font-size:1.02rem;
+    font-size:1rem;
     text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
   .close-btn{
-    position:absolute; top:16px; right:18px;
+    position:absolute; top:14px; right:16px;
     background: rgba(255,255,255,0.15); border:none; width: 32px; height: 32px; border-radius: 50%;
     color: var(--cream);
     font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
@@ -242,8 +242,8 @@
 
   /* --- CONTENIDOS ESPECIALES --- */
   .memory-scene{
-    display:flex; justify-content:center; gap:12px; margin:12px 0 8px;
-    font-size:1.8rem;
+    display:flex; justify-content:center; gap:12px; margin:10px 0 6px;
+    font-size:1.7rem;
     filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
   }
   .memory-scene span{ animation: floaty 2.6s ease-in-out infinite; }
@@ -254,7 +254,7 @@
     50%{ transform: translateY(-6px); }
   }
 
-  .hearts-field{ position:relative; height:75px; margin-bottom:6px; }
+  .hearts-field{ position:relative; height:65px; margin-bottom:4px; }
   .heart-float{
     position:absolute; bottom:0; font-size:1.2rem; opacity:0;
     animation: riseHeart 3.2s ease-in infinite;
@@ -263,28 +263,28 @@
   @keyframes riseHeart{
     0%{ transform: translateY(0) scale(.8); opacity:0; }
     15%{ opacity:1; }
-    100%{ transform: translateY(-65px) scale(1.1); opacity:0; }
+    100%{ transform: translateY(-55px) scale(1.1); opacity:0; }
   }
 
   .big-phrase{
     font-family:'Fraunces', serif;
     font-style:italic;
     font-weight:500;
-    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-size: clamp(1.4rem, 4.5vw, 1.9rem);
     line-height:1.35;
     color: var(--cream);
-    margin: 16px 0 6px;
+    margin: 14px 0 4px;
     text-shadow: 0 2px 10px rgba(255,255,255,0.3), 0 2px 8px rgba(0,0,0,0.5);
   }
 
   /* --- MARCO POLAROID ESTÉTICO --- */
   .polaroid-frame{
     background: #fff;
-    padding: 12px 12px 32px 12px;
+    padding: 10px 10px 28px 10px;
     border-radius: 4px;
     width: 100%;
-    max-width: 250px;
-    margin: 10px auto 14px;
+    max-width: 230px;
+    margin: 8px auto 12px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 15px rgba(255,255,255,0.2);
     transform: rotate(-1.5deg);
     transition: transform 0.3s ease;
@@ -309,8 +309,8 @@
     font-family: 'Fraunces', serif;
     font-style: italic;
     color: #4a3555;
-    font-size: 0.95rem;
-    margin-top: 14px;
+    font-size: 0.9rem;
+    margin-top: 12px;
     text-align: center;
   }
 
@@ -319,15 +319,15 @@
     background: rgba(0,0,0,0.3);
     border:1px solid rgba(255,255,255,0.25);
     border-radius: 14px;
-    padding: 16px 18px;
+    padding: 14px 16px;
     display:flex; flex-direction: column; gap:10px;
-    margin: 12px 0 6px;
+    margin: 10px 0 4px;
     text-align:left;
     box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
   }
-  .player-main{ display:flex; align-items:center; gap:14px; }
+  .player-main{ display:flex; align-items:center; gap:12px; }
   .play-btn{
-    width:42px; height:42px; border-radius:50%;
+    width:40px; height:40px; border-radius:50%;
     background: var(--gold);
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0; cursor:pointer; font-size:1rem; color:var(--night-deep);
@@ -336,9 +336,9 @@
   }
   .play-btn:hover{ transform: scale(1.06); }
   .track-info{ flex:1; }
-  .track-info .name{ font-weight:600; font-size:.92rem; color:var(--cream); }
-  .track-info .film{ font-size:.78rem; color: rgba(243,233,221,.75); margin-top:2px; }
-  .bars{ display:flex; align-items:flex-end; gap:3px; height:20px; }
+  .track-info .name{ font-weight:600; font-size:.9rem; color:var(--cream); }
+  .track-info .film{ font-size:.76rem; color: rgba(243,233,221,.75); margin-top:2px; }
+  .bars{ display:flex; align-items:flex-end; gap:3px; height:18px; }
   .bars span{
     width:3px; background: var(--gold-soft); border-radius:2px;
     animation: eq 1s ease-in-out infinite;
@@ -353,13 +353,12 @@
     50%{ transform: scaleY(1); }
   }
 
-  /* Timeline interactiva */
   .timeline-container{
     display: flex; align-items: center; gap: 10px; width: 100%;
-    margin-top: 4px; font-size: 0.72rem; color: rgba(243,233,221,0.7);
+    margin-top: 2px; font-size: 0.72rem; color: rgba(243,233,221,0.7);
   }
   .timeline-bar{
-    flex: 1; height: 5px; background: rgba(255,255,255,0.15); border-radius: 3px;
+    flex: 1; height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px;
     position: relative; cursor: pointer; overflow: hidden;
   }
   .timeline-progress{
@@ -367,9 +366,9 @@
     background: var(--gold); border-radius: 3px;
     transition: width 0.1s linear;
   }
-  .player-note{ font-size:.75rem; color:rgba(243,233,221,.65); font-weight:300;}
+  .player-note{ font-size:.74rem; color:rgba(243,233,221,.65); font-weight:300;}
 
-  .future-field{ position:relative; height:80px; margin-bottom:6px; overflow:hidden; }
+  .future-field{ position:relative; height:70px; margin-bottom:4px; overflow:hidden; }
   .mini-petal-box{
     position:absolute; bottom:-10px; width:8px; height:14px;
     border-radius: 8px 2px 8px 2px;
@@ -379,30 +378,29 @@
   @keyframes riseP{
     0%{ transform: translateY(0) rotate(0deg); opacity:0; }
     10%{ opacity:.9; }
-    100%{ transform: translateY(-90px) rotate(200deg); opacity:0; }
+    100%{ transform: translateY(-80px) rotate(200deg); opacity:0; }
   }
 
   /* --- PANTALLA FINAL Y LLUVIA DE PÉTALOS ROMÁNTICA --- */
   .final-screen{
     position:fixed; inset:0; background: radial-gradient(ellipse at 50% 30%, #2c2038, var(--night-deep) 75%);
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center; padding: 30px; z-index:20;
+    text-align:center; padding: 26px; z-index:20;
     opacity:0; pointer-events:none; transition: opacity .8s ease;
     overflow: hidden;
   }
   .final-screen.show{ opacity:1; pointer-events:auto; }
   .final-screen h2{
     font-family:'Fraunces', serif; font-style:italic; font-weight:500;
-    font-size: clamp(1.6rem, 5vw, 2.4rem); color: var(--cream); margin-bottom:18px;
+    font-size: clamp(1.5rem, 4.8vw, 2.3rem); color: var(--cream); margin-bottom:16px;
     position: relative; z-index: 2;
   }
   .final-screen p{
-    max-width: 440px; font-weight:300; line-height:1.7; color: rgba(243,233,221,.9);
-    position: relative; z-index: 2;
+    max-width: 420px; font-weight:300; line-height:1.7; color: rgba(243,233,221,.9);
+    position: relative; z-index: 2; font-size: 0.98rem;
   }
-  .final-hearts{ position:relative; width:100%; max-width:400px; height:60px; margin-top:24px; z-index: 2;}
+  .final-hearts{ position:relative; width:100%; max-width:400px; height:50px; margin-top:20px; z-index: 2;}
 
-  /* Contenedor de lluvia de pétalos en pantalla final */
   .rain-petals-container {
     position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1;
   }
@@ -428,7 +426,7 @@
   }
 
   .continue-btn{
-    margin-top: 28px;
+    margin-top: 24px;
     background: var(--gold);
     color: var(--night-deep);
     border:none;
@@ -453,11 +451,12 @@
 <div class="stage">
   <header>
     <h1>Para el amor de mi vida ✨</h1>
-    <p>Tocá cada pétalo. Se va a caer, y su recuerdo va a quedar abierto.</p>
+    <p>Tocá cada pétalo con tranquilidad.</p>
   </header>
 
   <div class="flower-wrap">
-    <svg viewBox="0 0 500 680" xmlns="http://www.w3.org/2000/svg">
+    <!-- ViewBox ampliado para dar mayor área de separación entre pétalos -->
+    <svg viewBox="-30 0 560 690" xmlns="http://www.w3.org/2000/svg">
       <!-- Tallo -->
       <path d="M250 440 L250 660" stroke="var(--stem)" stroke-width="12" fill="none" stroke-linecap="round"/>
       <!-- Hojas anchas de tulipán -->
@@ -572,7 +571,7 @@ const colors = ['#ff6f59','#ff3b6e','#e8175d','#c4145a','#8e3b9e','#3e6ff2','#ff
 const bgAmbient = document.getElementById('bgAmbient');
 const ambientTypes = ['star', 'heart', 'petal'];
 
-for(let i = 0; i < 45; i++){
+for(let i = 0; i < 40; i++){
   const el = document.createElement('div');
   const type = ambientTypes[Math.floor(Math.random() * ambientTypes.length)];
   
@@ -605,20 +604,20 @@ const BASE_X = 250, BASE_Y = 420;
 
 const petalsConfig = [
   { key:'recuerdo', angle: 0,   color:'var(--p1)', long:true },
-  { key:'ella',     angle: -18,  color:'var(--p2)' },
-  { key:'frase',    angle: 18,   color:'var(--p3)', long:true },
-  { key:'foto',     angle: -36,  color:'var(--p4)' },
-  { key:'cancion',  angle: 36,   color:'var(--p5)', long:true },
-  { key:'futuro',   angle: -54,  color:'var(--p6)' },
-  { key:'final',    angle: 54,   color:'var(--p7)', long:true },
+  { key:'ella',     angle: -20,  color:'var(--p2)' },
+  { key:'frase',    angle: 20,   color:'var(--p3)', long:true },
+  { key:'foto',     angle: -40,  color:'var(--p4)' },
+  { key:'cancion',  angle: 40,   color:'var(--p5)', long:true },
+  { key:'futuro',   angle: -60,  color:'var(--p6)' },
+  { key:'final',    angle: 60,   color:'var(--p7)', long:true },
 ];
 
 const petalGroup = document.getElementById('petals');
 
 function petalPath(long){
   return long
-    ? "M0,0 C -34,-30 -46,-82 -32,-128 C -25,-152 -9,-166 0,-176 C 9,-166 25,-152 32,-128 C 46,-82 34,-30 0,0 Z"
-    : "M0,0 C -30,-25 -40,-70 -28,-110 C -22,-130 -8,-142 0,-150 C 8,-142 22,-130 28,-110 C 40,-70 30,-25 0,0 Z";
+    ? "M0,0 C -36,-32 -48,-86 -34,-134 C -26,-158 -10,-172 0,-182 C 10,-172 26,-158 34,-134 C 48,-86 36,-32 0,0 Z"
+    : "M0,0 C -32,-26 -42,-74 -30,-116 C -24,-136 -8,-148 0,-156 C 8,-148 24,-136 30,-116 C 42,-74 32,-26 0,0 Z";
 }
 
 const drawOrder = [...petalsConfig].sort((a,b)=> (a.long?0:1) - (b.long?0:1));
@@ -715,7 +714,6 @@ function openPetal(key){
     progressEl.textContent = `${opened.size} / 7 pétalos abiertos`;
     
     if(opened.size === 7){
-      // Mostrar el aviso flotante antes de la pantalla final
       setTimeout(() => {
         overlay.classList.remove('open');
         finalNotice.classList.add('show');
@@ -749,7 +747,6 @@ overlay.addEventListener('click', (e)=>{
   }
 });
 
-// Control avanzado del reproductor de música con timeline interactiva
 document.addEventListener('click', function(e) {
   if (e.target && e.target.id === 'playAudioBtn') {
     const audio = document.getElementById('bgMusic');
@@ -768,7 +765,6 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// Sincronizar audio con la barra de progreso (timeline) y tiempos
 document.addEventListener('timeupdate', function(e) {
   const audio = document.getElementById('bgMusic');
   if (e.target && e.target.id === 'bgMusic') {
@@ -790,7 +786,6 @@ document.addEventListener('timeupdate', function(e) {
   }
 }, true);
 
-// Permitir clics en la barra de progreso de la canción para saltar de tiempo
 document.addEventListener('click', function(e) {
   if (e.target && (e.target.id === 'timelineBar' || e.target.id === 'timelineProgress')) {
     const audio = document.getElementById('bgMusic');
@@ -807,7 +802,6 @@ document.addEventListener('click', function(e) {
 function showFinal(){
   finalScreen.classList.add('show');
   
-  // Generar lluvia de pétalos en la pantalla final
   const rainContainer = document.getElementById('rainPetals');
   rainContainer.innerHTML = '';
   for(let i = 0; i < 30; i++){
