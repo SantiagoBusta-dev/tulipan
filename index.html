@@ -109,6 +109,12 @@
   }
   .petal-fall path{ transition: filter .15s ease; }
   .petal-fall:hover path, .petal-fall:active path{ filter: brightness(1.25) drop-shadow(0 0 16px rgba(255,195,61,0.95)); }
+  
+  .petal-fall.done{
+    opacity: .25;
+    filter: grayscale(.6) brightness(.6);
+    pointer-events: none;
+  }
 
   .progress{
     margin-top: 18px;
@@ -118,30 +124,14 @@
     z-index:2;
   }
 
-  /* --- BOTÓN PARA VER PANTALLA FINAL MANUALMENTE --- */
-  .show-final-btn {
-    margin-top: 14px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--gold);
-    color: var(--gold-soft);
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    z-index: 2;
-    transition: all 0.2s ease;
-  }
-  .show-final-btn:hover { background: rgba(211, 161, 92, 0.2); color: #fff; }
-
   /* ---- OVERLAY MODAL CON BRILLITOS Y DESTELLOS ROMÁNTICOS ---- */
   .overlay{
     position:fixed; inset:0;
     background: rgba(15,10,20,.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(10px);
     display:flex; align-items:center; justify-content:center;
     opacity:0; pointer-events:none;
-    transition: all .4s ease;
+    transition: opacity .35s ease;
     z-index:10;
     padding: 20px;
     overflow: hidden;
@@ -161,13 +151,13 @@
     background: #fff;
     border-radius: 50%;
     animation: sparkleAnim linear infinite;
-    box-shadow: 0 0 10px var(--card-glow, #ff3b6e), 0 0 15px #fff;
+    box-shadow: 0 0 8px var(--card-glow, #ff3b6e), 0 0 12px #fff;
   }
   @keyframes sparkleAnim {
-    0% { transform: translateY(30px) scale(0.2); opacity: 0; }
-    30% { opacity: 1; }
-    70% { opacity: 0.7; }
-    100% { transform: translateY(-180px) scale(1.4); opacity: 0; }
+    0% { transform: translateY(20px) scale(0.2); opacity: 0; }
+    30% { opacity: 0.9; }
+    70% { opacity: 0.6; }
+    100% { transform: translateY(-150px) scale(1.3); opacity: 0; }
   }
 
   .card{
@@ -183,14 +173,13 @@
     text-align:center;
     position:relative;
     z-index: 2;
-    transform: translateY(20px) scale(.9);
-    opacity: 0;
-    transition: all .45s cubic-bezier(.34, 1.56, .64, 1);
+    transform: translateY(16px) scale(.95);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1);
     max-height: 82vh;
     overflow-y:auto;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 50px var(--card-glow-shadow, rgba(255, 59, 110, 0.4)), inset 0 1px 0 rgba(255,255,255,0.3);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 45px var(--card-glow-shadow, rgba(255, 59, 110, 0.4)), inset 0 1px 0 rgba(255,255,255,0.3);
   }
-  .overlay.open .card{ transform: translateY(0) scale(1); opacity: 1; }
+  .overlay.open .card{ transform: translateY(0) scale(1); }
 
   .card .tag{
     font-size:.75rem;
@@ -436,7 +425,7 @@
 <div class="stage">
   <header>
     <h1>Para el amor de mi vida ✨</h1>
-    <p>Tocá los pétalos cuantas veces quieras.</p>
+    <p>Tocá cada pétalo con tranquilidad.</p>
   </header>
 
   <div class="flower-wrap">
@@ -456,8 +445,7 @@
     </svg>
   </div>
 
-  <div class="progress" id="progress">0 de 7 pétalos descubiertos</div>
-  <button class="show-final-btn" id="openFinalScreenBtn">Ver mensaje final 💌</button>
+  <div class="progress" id="progress">0 / 7 pétalos abiertos</div>
 </div>
 
 <div class="overlay" id="overlay">
@@ -471,7 +459,7 @@
 <div class="final-screen" id="finalScreen">
   <div class="rain-petals-container" id="rainPetals"></div>
   <h2>Feliz 1 año y 4 meses juntos ❤️</h2>
-  <p>Cada pétalo fue un pedacito de este tiempo hermoso que llevamos compartiendo. Quiero que lo nuestro sea para siempre, que sigamos sumando años, risas y momentos inolvidables, porque mi lugar favorito en el mundo es con vos.</p>
+  <p>Ya no quedan pétalos en la flor, pero cada uno de ellos fue un pedacito de este tiempo hermoso que llevamos compartiendo. Quiero que lo nuestro sea para siempre, que sigamos sumando años, risas y momentos inolvidables, porque mi lugar favorito en el mundo es con vos.</p>
   <div class="final-hearts" id="finalHearts"></div>
   <button class="continue-btn" id="restartBtn">Volver a la flor</button>
 </div>
@@ -630,11 +618,12 @@ const cardSparkles = document.getElementById('cardSparkles');
 const cardContent = document.getElementById('cardContent');
 const progressEl = document.getElementById('progress');
 const finalScreen = document.getElementById('finalScreen');
-let openedSet = new Set();
+let opened = new Set();
+let pendingFinal = false; // Controla si al cerrar la tarjeta corresponde la pantalla final
 
 function generateSparkles(colorHex) {
   cardSparkles.innerHTML = '';
-  for (let i = 0; i < 22; i++) {
+  for (let i = 0; i < 20; i++) {
     const dot = document.createElement('div');
     dot.className = 'sparkle-dot';
     dot.style.left = Math.random() * 100 + '%';
@@ -643,8 +632,8 @@ function generateSparkles(colorHex) {
     dot.style.width = size;
     dot.style.height = size;
     dot.style.setProperty('--card-glow', colorHex);
-    dot.style.animationDuration = (2.2 + Math.random() * 2.2) + 's';
-    dot.style.animationDelay = (Math.random() * 1.5) + 's';
+    dot.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+    dot.style.animationDelay = (Math.random() * 2) + 's';
     cardSparkles.appendChild(dot);
   }
 }
@@ -673,8 +662,13 @@ function petalsAnim(container){
 }
 
 function openPetal(key){
-  if (navigator.vibrate) {
-    navigator.vibrate(40);
+  // Feedback háptico seguro y compatible con la mayoría de teléfonos
+  try {
+    if (window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(35);
+    }
+  } catch (e) {
+    // Ignorar si el navegador restringe la vibración
   }
 
   const c = content[key];
@@ -695,29 +689,45 @@ function openPetal(key){
   if(key==='ella') heartsAnim(document.getElementById('heartsField'));
   if(key==='futuro') petalsAnim(document.getElementById('futureField'));
 
-  if(!openedSet.has(key)){
-    openedSet.add(key);
-    progressEl.textContent = `${openedSet.size} de 7 pétalos descubiertos`;
+  const el = document.querySelector(`.petal-fall[data-key="${key}"]`);
+  if(el && !opened.has(key)){
+    opened.add(key);
+    el.classList.add('done');
+    progressEl.textContent = `${opened.size} / 7 pétalos abiertos`;
+    
+    // Si este pétalo completó los 7, marcamos que al cerrar la tarjeta se mostrará el final
+    if(opened.size === 7){
+      pendingFinal = true;
+    }
   }
 }
 
 document.querySelectorAll('.petal-fall').forEach(pf=>{
   pf.addEventListener('click', ()=>{
     const key = pf.dataset.key;
+    if(opened.has(key)) return;
     openPetal(key);
   });
 });
 
-document.getElementById('closeBtn').addEventListener('click', ()=>{
+function closeCardModal() {
   const audio = document.getElementById('bgMusic');
   if(audio) audio.pause();
   overlay.classList.remove('open');
-});
+
+  // Si se acaban de abrir todos los pétalos, lanzamos la pantalla final justo al cerrar la tarjeta
+  if (pendingFinal) {
+    pendingFinal = false;
+    setTimeout(() => {
+      showFinal();
+    }, 400);
+  }
+}
+
+document.getElementById('closeBtn').addEventListener('click', closeCardModal);
 overlay.addEventListener('click', (e)=>{
   if(e.target === overlay) {
-    const audio = document.getElementById('bgMusic');
-    if(audio) audio.pause();
-    overlay.classList.remove('open');
+    closeCardModal();
   }
 });
 
@@ -802,10 +812,9 @@ function showFinal(){
   }
 }
 
-document.getElementById('openFinalScreenBtn').addEventListener('click', showFinal);
-
 document.getElementById('restartBtn').addEventListener('click', ()=>{
   finalScreen.classList.remove('show');
+  location.reload();
 });
 </script>
 </body>
