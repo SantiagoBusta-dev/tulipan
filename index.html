@@ -109,12 +109,6 @@
   }
   .petal-fall path{ transition: filter .15s ease; }
   .petal-fall:hover path, .petal-fall:active path{ filter: brightness(1.25) drop-shadow(0 0 16px rgba(255,195,61,0.95)); }
-  
-  .petal-fall.done{
-    opacity: .25;
-    filter: grayscale(.6) brightness(.6);
-    pointer-events: none;
-  }
 
   .progress{
     margin-top: 18px;
@@ -124,31 +118,20 @@
     z-index:2;
   }
 
-  /* ---- AVISO DE ÚLTIMO PÉTALO FLOTANTE ---- */
-  .final-notice {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    background: rgba(23, 15, 32, 0.95);
-    border: 2px solid var(--gold);
-    color: var(--cream);
-    padding: 20px 32px;
-    border-radius: 20px;
-    font-family: 'Fraunces', serif;
-    font-size: 1.25rem;
-    font-style: italic;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 25px rgba(211,161,92,0.4);
-    z-index: 25;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    text-align: center;
+  /* --- BOTÓN PARA VER PANTALLA FINAL MANUALMENTE --- */
+  .show-final-btn {
+    margin-top: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--gold);
+    color: var(--gold-soft);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.2s ease;
   }
-  .final-notice.show {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+  .show-final-btn:hover { background: rgba(211, 161, 92, 0.2); color: #fff; }
 
   /* ---- OVERLAY MODAL CON BRILLITOS Y DESTELLOS ROMÁNTICOS ---- */
   .overlay{
@@ -449,12 +432,11 @@
 <body>
 
 <div class="bg-ambient" id="bgAmbient"></div>
-<div class="final-notice" id="finalNotice">✨ ¡Último pétalo abierto! ✨</div>
 
 <div class="stage">
   <header>
     <h1>Para el amor de mi vida ✨</h1>
-    <p>Tocá cada pétalo con tranquilidad.</p>
+    <p>Tocá los pétalos cuantas veces quieras.</p>
   </header>
 
   <div class="flower-wrap">
@@ -474,7 +456,8 @@
     </svg>
   </div>
 
-  <div class="progress" id="progress">0 / 7 pétalos abiertos</div>
+  <div class="progress" id="progress">0 de 7 pétalos descubiertos</div>
+  <button class="show-final-btn" id="openFinalScreenBtn">Ver mensaje final 💌</button>
 </div>
 
 <div class="overlay" id="overlay">
@@ -488,7 +471,7 @@
 <div class="final-screen" id="finalScreen">
   <div class="rain-petals-container" id="rainPetals"></div>
   <h2>Feliz 1 año y 4 meses juntos ❤️</h2>
-  <p>Ya no quedan pétalos en la flor, pero cada uno de ellos fue un pedacito de este tiempo hermoso que llevamos compartiendo. Quiero que lo nuestro sea para siempre, que sigamos sumando años, risas y momentos inolvidables, porque mi lugar favorito en el mundo es con vos.</p>
+  <p>Cada pétalo fue un pedacito de este tiempo hermoso que llevamos compartiendo. Quiero que lo nuestro sea para siempre, que sigamos sumando años, risas y momentos inolvidables, porque mi lugar favorito en el mundo es con vos.</p>
   <div class="final-hearts" id="finalHearts"></div>
   <button class="continue-btn" id="restartBtn">Volver a la flor</button>
 </div>
@@ -647,8 +630,7 @@ const cardSparkles = document.getElementById('cardSparkles');
 const cardContent = document.getElementById('cardContent');
 const progressEl = document.getElementById('progress');
 const finalScreen = document.getElementById('finalScreen');
-const finalNotice = document.getElementById('finalNotice');
-let opened = new Set();
+let openedSet = new Set();
 
 function generateSparkles(colorHex) {
   cardSparkles.innerHTML = '';
@@ -713,29 +695,15 @@ function openPetal(key){
   if(key==='ella') heartsAnim(document.getElementById('heartsField'));
   if(key==='futuro') petalsAnim(document.getElementById('futureField'));
 
-  const el = document.querySelector(`.petal-fall[data-key="${key}"]`);
-  if(el && !opened.has(key)){
-    opened.add(key);
-    el.classList.add('done');
-    progressEl.textContent = `${opened.size} / 7 pétalos abiertos`;
-    
-    if(opened.size === 7){
-      setTimeout(() => {
-        overlay.classList.remove('open');
-        finalNotice.classList.add('show');
-        setTimeout(() => {
-          finalNotice.classList.remove('show');
-          showFinal();
-        }, 1800);
-      }, 700);
-    }
+  if(!openedSet.has(key)){
+    openedSet.add(key);
+    progressEl.textContent = `${openedSet.size} de 7 pétalos descubiertos`;
   }
 }
 
 document.querySelectorAll('.petal-fall').forEach(pf=>{
   pf.addEventListener('click', ()=>{
     const key = pf.dataset.key;
-    if(opened.has(key)) return;
     openPetal(key);
   });
 });
@@ -834,9 +802,10 @@ function showFinal(){
   }
 }
 
+document.getElementById('openFinalScreenBtn').addEventListener('click', showFinal);
+
 document.getElementById('restartBtn').addEventListener('click', ()=>{
   finalScreen.classList.remove('show');
-  location.reload();
 });
 </script>
 </body>
